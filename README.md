@@ -1,4 +1,4 @@
-Run the application using `python3 main.py`. When in the same directory as the file.
+Run the application using `python main.py`. When in the same directory as the file. Python 3.9.6 used.
 
 Provide a full path the directory containing files you want to rename. Enter the season of the series ex: 1, 3, 10, 23. You will be shown what the values will update from and to.
 
