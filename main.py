@@ -1,7 +1,9 @@
 import os
+import sys
 import pprint
 
 # /Users/pjd/Documents/Projects/coding/python/dbz-renamer/test
+# /Volumes/zfs-data/portainer/plex/media/tv/Bleach/Season 01 The Substitute Arc
 
 pp = pprint.PrettyPrinter()
 
@@ -28,10 +30,10 @@ def confirmUserInput(question):
         try:
             userInput = str(input(question))
             if userInput == "y":
-                continue
+                break
             elif userInput == "n":
-                print("Select 'n'. Exiting")
-                exit
+                print("Select 'n'. Exiting application")
+                sys.exit()
         except ValueError:
             print("Please enter y or n")
             continue
@@ -56,10 +58,12 @@ def main():
 
     with cd(directory):
         files = os.listdir()
+        print("Found {} files to rename".format(len(files)))
         numbers = []
         for f in files:
             if os.path.isfile(f):
-                filename = f.split()
+                filename = os.path.splitext(f)[0]
+                filename = filename.split()
                 for name in filename:
                     if name.isdigit():
                         numbers.append(name)
@@ -75,12 +79,21 @@ def main():
                 episode = "{}".format(idx)
             seasonAndEpisodes[number] = "S{}E{}".format(season, episode)
 
-        pp.pprint(seasonAndEpisodes)
-        confirmUserInput("These values are the old values with the new values. Would you like to continue? (y or n)")
+        newFilesNames = {}
 
         for idx, filename in enumerate(files):
             for se in seasonAndEpisodes:
                 if se in filename:
                     newFileName = filename.replace(se, seasonAndEpisodes[se])
-                    os.rename(filename, newFileName)
+                    newFilesNames[filename] = newFileName
+        
+        pp.pprint(newFilesNames)
+        print()
+        confirmUserInput("These values are the old values with the new values. Would you like to continue? (y or n)")
+        
+        for key, value in newFilesNames.items():
+            print("renaming {} to {}".format(key, value))
+            # os.rename(key, value)
+            
+            
 main()
