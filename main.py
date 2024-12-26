@@ -93,7 +93,7 @@ def main():
         
         for key, value in newFilesNames.items():
             print("renaming {} to {}".format(key, value))
-            # os.rename(key, value)
+            os.rename(key, value)
             
             
 main()
