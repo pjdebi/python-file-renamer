@@ -3,7 +3,6 @@ import sys
 import pprint
 
 # /Users/pjd/Documents/Projects/coding/python/dbz-renamer/test
-# /Volumes/zfs-data/portainer/plex/media/tv/Bleach/Season 01 The Substitute Arc
 
 pp = pprint.PrettyPrinter()
 
@@ -28,7 +27,7 @@ class cd:
 def confirmUserInput(question):
     while True:
         try:
-            userInput = str(input(question))
+            userInput = str(input(question + " "))
             if userInput == "y":
                 break
             elif userInput == "n":
