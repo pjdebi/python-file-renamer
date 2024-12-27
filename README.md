@@ -1,6 +1,27 @@
 # Usage
 Rename TV Shows to follow the Plex season and episode formatting. A file called 'Show 001 Awesome Episode' will be updated to 'Show S01E01 Awesome Episode' if the season entered was 1. This allows for bulk renaming of files within a specified directory.
 
+Anime shows typically follow this format
+```
+/Show
+    /Season 1
+        Episode 1
+        Episode 2
+    /Season 2
+        Episode 3
+        Episode 4
+```
+This program will update to the following. When provided w/the relevant paths to each season.
+```
+/Show
+    /Season 1
+        S01E01
+        S01E02
+    /Season 2
+        S02E01
+        S02E02
+```
+
 ## How to Run
 Run the application using `python main.py`. When in the same directory as the file. Python 3.9.6 used.
 
