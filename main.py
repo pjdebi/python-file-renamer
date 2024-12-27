@@ -40,6 +40,62 @@ def confirmUserInput(question):
             break
 
 def main():
+    directory, season = getDirectoryAndSeason()
+
+    with cd(directory):
+        files = os.listdir()
+        episodeNumbersList = getEpisodes(files)
+
+        seasonAndEpisodes = getSeasonAndEpisodesDictionary(season, episodeNumbersList)
+
+        newFilesNames = getNewFileNames(files, seasonAndEpisodes)
+        
+        pp.pprint(newFilesNames)
+        confirmUserInput("These values are the old values with the new values. Would you like to continue? (y or n)")
+        
+        renameFiles(newFilesNames)
+
+def renameFiles(newFilesNames):
+    for key, value in newFilesNames.items():
+        print("renaming {} to {}".format(key, value))
+        os.rename(key, value)
+
+def getNewFileNames(files, seasonAndEpisodes):
+    newFilesNames = {}
+
+    for idx, filename in enumerate(files):
+        for se in seasonAndEpisodes:
+            if se in filename:
+                newFileName = filename.replace(se, seasonAndEpisodes[se])
+                newFilesNames[filename] = newFileName
+    return newFilesNames
+
+def getSeasonAndEpisodesDictionary(season, episodeNumbersList):
+    seasonAndEpisodes = {}
+
+    for idx, number in enumerate(episodeNumbersList):
+        idx = idx + 1
+        if idx < 10:
+            episode = "0{}".format(idx)
+        else:
+            episode = "{}".format(idx)
+        seasonAndEpisodes[number] = "S{}E{}".format(season, episode)
+    return seasonAndEpisodes
+
+def getEpisodes(files):
+    numbers = []
+    for f in files:
+        if os.path.isfile(f):
+            filename = os.path.splitext(f)[0]
+            filename = filename.split()
+            for name in filename:
+                if name.isdigit():
+                    numbers.append(name)
+    print("Found {} files to rename".format(len(numbers)))
+    numbers.sort()
+    return numbers
+
+def getDirectoryAndSeason():
     directory = input("What directory do you want to rename files in? (Please use the full path): ")
     while True:
         try:
@@ -54,45 +110,6 @@ def main():
         season = "0{}".format(season)
     else:
         season = "{}".format(season)
-
-    with cd(directory):
-        files = os.listdir()
-        numbers = []
-        for f in files:
-            if os.path.isfile(f):
-                filename = os.path.splitext(f)[0]
-                filename = filename.split()
-                for name in filename:
-                    if name.isdigit():
-                        numbers.append(name)
-        print("Found {} files to rename".format(len(numbers)))
-        numbers.sort()
-
-        seasonAndEpisodes = {}
-
-        for idx, number in enumerate(numbers):
-            idx = idx + 1
-            if idx < 10:
-                episode = "0{}".format(idx)
-            else:
-                episode = "{}".format(idx)
-            seasonAndEpisodes[number] = "S{}E{}".format(season, episode)
-
-        newFilesNames = {}
-
-        for idx, filename in enumerate(files):
-            for se in seasonAndEpisodes:
-                if se in filename:
-                    newFileName = filename.replace(se, seasonAndEpisodes[se])
-                    newFilesNames[filename] = newFileName
-        
-        pp.pprint(newFilesNames)
-        print()
-        confirmUserInput("These values are the old values with the new values. Would you like to continue? (y or n)")
-        
-        for key, value in newFilesNames.items():
-            print("renaming {} to {}".format(key, value))
-            os.rename(key, value)
-            
+    return directory, season   
             
 main()
