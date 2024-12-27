@@ -2,7 +2,7 @@ import os
 import sys
 import pprint
 
-# /Users/pjd/Documents/Projects/coding/python/dbz-renamer/test
+# /Users/pjd/Documents/Projects/coding/python/python-show-renamer/test
 
 pp = pprint.PrettyPrinter()
 
@@ -57,7 +57,6 @@ def main():
 
     with cd(directory):
         files = os.listdir()
-        print("Found {} files to rename".format(len(files)))
         numbers = []
         for f in files:
             if os.path.isfile(f):
@@ -66,6 +65,7 @@ def main():
                 for name in filename:
                     if name.isdigit():
                         numbers.append(name)
+        print("Found {} files to rename".format(len(numbers)))
         numbers.sort()
 
         seasonAndEpisodes = {}
