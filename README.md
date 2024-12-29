@@ -1,44 +1,107 @@
-# Usage
-Rename TV Shows to follow the Plex season and episode formatting. A file called 'Show 001 Awesome Episode' will be updated to 'Show S01E01 Awesome Episode' if the season entered was 1. This allows for bulk renaming of files within a specified directory.
+# Python Show Renamer
 
-Anime shows typically follow this format
-```
-/Show
-    /Season 1
-        Episode 1
-        Episode 2
-    /Season 2
-        Episode 3
-        Episode 4
-```
-This program will update to the following. When provided w/the relevant paths to each season.
-```
-/Show
-    /Season 1
-        S01E01
-        S01E02
-    /Season 2
-        S02E01
-        S02E02
-```
+## Description
 
-## How to Run
-Run the application using `python main.py`. When in the same directory as the file. Python 3.9.6 used.
+This script helps rename files in a directory by appending a season and episode format (e.g., `S01E01`) to their filenames. It is particularly useful for organizing TV show episodes or similar collections where consistent naming is required.
 
-## Example
-A sample run is provided below
-```
-(main)$ python main.py 
-What directory do you want to rename files in? (Please use the full path): /Users/pjd/Documents/Projects/coding/python/python-show-renamer/test
-What season is this? 1
-Found 2 files to rename
-{'test - 011 - file.txt': 'test - S01E01 - file.txt',
- 'test - 100 - file.txt': 'test - S01E02 - file.txt'}
+## Features
 
-These values are the old values with the new values. Would you like to continue? (y or n) y
-renaming test - 100 - file.txt to test - S01E02 - file.txt
-renaming test - 011 - file.txt to test - S01E01 - file.txt
+- Dynamically renames files in a specified directory.
+- Prompts the user for a season number and appends it to filenames.
+- Ensures user confirmation before performing file renaming.
+- Handles errors such as non-existent directories gracefully.
+
+---
+
+## Prerequisites
+
+Ensure you have Python 3.x installed on your system.
+
+### Required Libraries
+
+This script uses only standard Python libraries, so no additional installations are required.
+
+---
+
+## How to Use
+
+### 1. Clone or download the script
+
+Save the script to a local directory on your system.
+
+### 2. Run the script
+
+Run the script using Python:
+
+```bash
+python main.py
 ```
 
-## TODO
-- [ ] allow renaming all episodes when separated into season folders
+### 3. Provide inputs as prompted:
+
+- **Directory Path:** Input the full path to the directory containing the files you want to rename.
+- **Season Number:** Enter the season number (e.g., `1` for Season 1).
+
+### 4. Confirm changes:
+
+The script will display a mapping of the old filenames to the new filenames and prompt for confirmation. Type `y` to proceed or `n` to exit.
+
+---
+
+## Example Workflow
+
+1. The script asks for the directory path:
+
+   ```
+   What directory do you want to rename files in? (Please use the full path): /path/to/files
+   ```
+
+2. The script asks for the season number:
+
+   ```
+   What season is this? 1
+   ```
+
+3. It displays the proposed changes:
+
+   ```
+   {'oldfile1.txt': 'S01E01.txt', 'oldfile2.txt': 'S01E02.txt'}
+   These values are the old values with the new values. Would you like to continue? (y or n)
+   ```
+
+4. After confirmation, it renames the files and exits.
+
+---
+
+## File Structure
+
+### Key Functions:
+
+- **`cd` (Context Manager):** Temporarily changes the working directory.
+- **`confirmUserInput`:** Ensures the user confirms before proceeding.
+- **`getDirectoryAndSeason`:** Collects the directory path and season number from the user.
+- **`getEpisodes`:** Extracts episode numbers from filenames.
+- **`getSeasonAndEpisodesDictionary`:** Maps episode numbers to their new season-episode format.
+- **`getNewFileNames`:** Prepares the old-to-new filename mapping.
+- **`renameFiles`:** Renames files in the directory.
+
+---
+
+## Error Handling
+
+- **Invalid Directory:** Alerts the user if the directory doesn't exist.
+- **Invalid Season Input:** Prompts the user until a valid season number is entered.
+- **User Abort:** Exits gracefully if the user decides not to proceed.
+
+---
+
+## Notes
+
+- Ensure you have proper permissions to modify files in the target directory.
+- Back up your files before running the script in case of unintended changes.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
